@@ -1,16 +1,21 @@
+import { useState } from "react";
 import React, { FC } from "react";
-import ColorfulMessage from "./components/ColorfulMessage.tsx"; // .tsxの拡張子は不要です
+import ColorfulMessage from "./components/ColorfulMessage.tsx";
 
 export const App: FC = () => {
-  const onClickButton = () => alert('alert');
+  const [num, setNum] = useState(0);
+  const onClickCountUp = () => {
+    // setNum(num + 1);
+    setNum((prev) => prev + 1);
+  };
   return (
     <>
       <h1>こんにちは</h1>
-      <ColorfulMessage color='red'>お元気ですか</ColorfulMessage>
-      <ColorfulMessage color='green'>元気です</ColorfulMessage>
+      <ColorfulMessage color="red">お元気ですか</ColorfulMessage>
+      <ColorfulMessage color="green">元気です</ColorfulMessage>
 
-      {/* タグの中にJSが書ける {}のなかにJSを書く */}
-      <button onClick={onClickButton}>ボタン</button>
+      <button onClick={onClickCountUp}>カウントアップ</button>
+      <p>{num}</p>
     </>
   );
 };
