@@ -3,14 +3,8 @@ import "./style.css";
 
 export const Todo: FC = () => {
   const [todoText, setTodoText] = useState("");
-  const [incompleteTodos, setincompleteTodos] = useState([
-    "TODOです1",
-    "TODOです2",
-  ]);
-  const [completeTodos, setCompleteTodos] = useState([
-    "TODOでした1",
-    "TODOでした2",
-  ]);
+  const [incompleteTodos, setincompleteTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] = useState([]);
 
   const onChangeTodoText = (event) => setTodoText(event.target.value); //入力された文字を保存
 
@@ -40,8 +34,21 @@ export const Todo: FC = () => {
     // 「完了のTODO」に追加する
     // 現在の完了タスクに、「完了」されたタスクを追加
     const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
+    // それぞれstateを更新
     setincompleteTodos(newIncompleteTodos);
     setCompleteTodos(newCompleteTodos);
+  };
+
+  // 戻すボタン
+  const onClickBack = (index) => {
+    // 「完了のTODO」から削除する
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(index, 1);
+
+    // 「未完了のTODO」に追加する
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+    setCompleteTodos(newCompleteTodos);
+    setincompleteTodos(newIncompleteTodos);
   };
 
   return (
@@ -72,11 +79,11 @@ export const Todo: FC = () => {
       <div className="complete-area">
         <p className="title">完了のTODO</p>
         <ul>
-          {completeTodos.map((todo) => (
+          {completeTodos.map((todo, index) => (
             <li key={todo}>
               <div className="list-row">
                 <p className="todo-item">{todo}</p>
-                <button>戻す</button>
+                <button onClick={() => onClickBack(index)}>戻す</button>
               </div>
             </li>
           ))}
