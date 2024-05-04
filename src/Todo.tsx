@@ -24,10 +24,24 @@ export const Todo: FC = () => {
 
   // 削除ボタン
   const onClickDelete = (index) => {
+    // 未完了のタスクをコピー
     const newTodos = [...incompleteTodos];
     // index番目の要素を１つ削除する
     newTodos.splice(index, 1);
     setincompleteTodos(newTodos);
+  };
+
+  // 完了ボタン
+  const onClickComplete = (index) => {
+    // 「未完了のTODO」から削除する
+    const newIncompleteTodos = [...incompleteTodos];
+    newIncompleteTodos.splice(index, 1);
+
+    // 「完了のTODO」に追加する
+    // 現在の完了タスクに、「完了」されたタスクを追加
+    const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
+    setincompleteTodos(newIncompleteTodos);
+    setCompleteTodos(newCompleteTodos);
   };
 
   return (
@@ -48,7 +62,7 @@ export const Todo: FC = () => {
             <li key={todo}>
               <div className="list-row">
                 <p className="todo-item">{todo}</p>
-                <button>完了</button>
+                <button onClick={() => onClickComplete(index)}>完了</button>
                 <button onClick={() => onClickDelete(index)}>削除</button>
               </div>
             </li>
